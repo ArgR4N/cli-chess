@@ -8,7 +8,7 @@ struct Player {
 };
 
 float piecesValues[6] = {9, 0, 5, 3.5, 3, 1};
-string piecesFigures[2][7] = {{"♕", "♔", "♗", "♖" , "♘", "♙", " "}, {"♛", "♚", "♝",  "♜", "♞", "♟", " "}};
+string piecesFigures[2][7] = {{"♕", "♔", "♗", "♖" , "♘", "♙", "■"}, {"♛", "♚", "♝",  "♜", "♞", "♟", "□"}};
 
 struct Piece {
     int type; 
@@ -63,12 +63,19 @@ int main(){
         for(int i = 0; i <= 8; i++){
             cout << i << " ";
         }
+        system("color %");
         cout << endl;
         for(int i = 0; i < initTable.size(); i++){
                 cout << i+1 << " ";
             for(int j = 0; j < initTable[0].size(); j++){
-                if(i > 6 ) cout << piecesFigures[0][initTable[i][j].type] << " ";
-                else cout << piecesFigures[1][initTable[i][j].type] << " ";
+                if(initTable[i][j].type == 6){
+                    if(i % 2 == 0 && j % 2 != 0 || i % 2 != 0 && j % 2 == 0) cout << piecesFigures[1][initTable[i][j].type] << " ";
+                    else cout << piecesFigures[0][initTable[i][j].type] << " ";
+                    continue;
+                }
+
+                if(i > 4 ) cout << piecesFigures[1][initTable[i][j].type] << " ";
+                else cout << piecesFigures[0][initTable[i][j].type] << " ";
             }
             cout << endl;
         }
