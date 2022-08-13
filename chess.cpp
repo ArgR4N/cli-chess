@@ -31,9 +31,18 @@ struct Piece {
 struct Chess {
     vector<vector< Piece>> table;
     vector<Player > players;
-    bool move(){
-        return false;
+    bool turn; //true = white || false == black
+    void move(vector<int> beg, vector<int> end){
+        //Move (TO DO) =>		
+        int rigthColor = turn ? 1 : 0;
+        if(beg == end) return; //Check no imposible move
+        if(turn != table[beg[0]][beg[1]].color) return; //Check color
+        //TO DO => Check if move is illegal, make castle, check jaque mate; 
+        table[end[0]][end[1]] = table[beg[0]][beg[1]];
+        table[beg[0]][beg[1]] = Piece(6, 0);
+        turn = !turn; //Check player turn || TO DO => Move this to other place;
     };
+
     Chess(): players({Player("b"), Player("w")}), table() {};
 
     void print_table(){
@@ -50,10 +59,16 @@ struct Chess {
         }
     };
 
+    void print_turn(){
+        turn ? cout << "White" : cout << "Black";
+        cout << "´s Turn." << endl;
+    }
+
     void init_game_loop(){
         while(true){
             system("cls"); //Clean terminal*
             system("clear"); //Clean terminal*
+            print_turn();
             print_table(); // Print table
             vector<int> beg (2), end (2);
             cout << "beg? "; //Inicio => Pieza || Casilla vacia || Ficha clavada
