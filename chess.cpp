@@ -29,9 +29,51 @@ struct Piece {
 };
 
 struct Chess {
-    vector< int> table;
+    vector<vector< Piece>> table;
     vector<Player > players;
+    bool move(){
+        return false;
+    };
     Chess(): players({Player("b"), Player("w")}), table() {};
+
+    void print_table(){
+        for(int i = 0; i <= 8; i++){
+            cout << i << " ";
+        }
+        cout << endl;
+        for(int i = 0; i < 8; i++){
+                cout << i+1 << " ";
+            for(int j = 0; j < 8; j++){
+                cout << table[i][j].getFigure(i, j) << " ";
+            }
+            cout << endl;
+        }
+    };
+
+    void init_game_loop(){
+        while(true){
+            system("cls"); //Clean terminal*
+            system("clear"); //Clean terminal*
+            print_table(); // Print table
+            vector<int> beg (2), end (2);
+            cout << "beg? "; //Inicio => Pieza || Casilla vacia || Ficha clavada
+            cin >> beg[0] >> beg[1];
+            while(beg[0] < 0 || beg[0] > 7 || beg[1] < 0 || beg[1] > 7){
+                cout << "Ingrese valores entre 0 y 7: ";
+                cin >> beg[0] >> beg[1];	
+            }
+            cout << "end? "; //Fin => Casilla Vacia || Pieza Aliada (Ilegal) || Pieza Enemiga (Comer) || Rey
+            cin >> end[0] >> end[1];
+            while(end[0] < 0 || end[0] > 7 || end[1] < 0 || end[1] > 7){
+                cout << "Ingrese valores entre 0 y 7: ";
+                cin >> end[0] >> end[1];	
+            }
+
+            //Move (TO DO) =>		
+            table[end[0]][end[1]] = table[beg[0]][beg[1]];
+            table[beg[0]][beg[1]] = Piece(6, 0);
+	    }
+    };
 };
 
 int main(){
@@ -42,6 +84,7 @@ int main(){
     //3 => Torre
     //4 => Caballo
     //5 => Peon
+    //6 => Casilla
     for(int i = 0; i < 8; i++){
         vector< Piece> newRow;
         for(int j = 0; j < 8; j++){
@@ -69,18 +112,10 @@ int main(){
     }
 
     while(true){
-        for(int i = 0; i <= 8; i++){
-            cout << i << " ";
-        }
-        cout << endl;
-        for(int i = 0; i < 8; i++){
-                cout << i+1 << " ";
-            for(int j = 0; j < 8; j++){
-                cout << initTable[i][j].getFigure(i, j) << " ";
-            }
-            cout << endl;
-        }
-        Chess game();
+
+        Chess game;
+        game.table = initTable;
+        game.init_game_loop();
         break;
     }
 };
