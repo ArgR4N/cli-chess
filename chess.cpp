@@ -34,7 +34,6 @@ struct Chess {
     bool turn; //true = white || false == black
     void move(vector<int> beg, vector<int> end){
         //Move (TO DO) =>		
-        int rigthColor = turn ? 1 : 0;
         if(beg == end) return; //Check no imposible move
         if(turn != table[beg[0]][beg[1]].color) return; //Check color
         //TO DO => Check if move is illegal, make castle, check jaque mate; 
@@ -44,14 +43,15 @@ struct Chess {
     };
 
     Chess(): players({Player("b"), Player("w")}), table() {};
-
+  
     void print_table(){
-        for(int i = 0; i <= 8; i++){
+        cout << "  ";
+        for(int i = 0; i <= 7; i++){
             cout << i << " ";
         }
         cout << endl;
         for(int i = 0; i < 8; i++){
-                cout << i+1 << " ";
+                cout << i << " ";
             for(int j = 0; j < 8; j++){
                 cout << table[i][j].getFigure(i, j) << " ";
             }
@@ -61,7 +61,7 @@ struct Chess {
 
     void print_turn(){
         turn ? cout << "White" : cout << "Black";
-        cout << "´s Turn." << endl;
+        cout << "`s Turn." << endl;
     }
 
     void init_game_loop(){
@@ -83,10 +83,7 @@ struct Chess {
                 cout << "Ingrese valores entre 0 y 7: ";
                 cin >> end[0] >> end[1];	
             }
-
-            //Move (TO DO) =>		
-            table[end[0]][end[1]] = table[beg[0]][beg[1]];
-            table[beg[0]][beg[1]] = Piece(6, 0);
+            move(beg, end);
 	    }
     };
 };
@@ -127,7 +124,6 @@ int main(){
     }
 
     while(true){
-
         Chess game;
         game.table = initTable;
         game.init_game_loop();
